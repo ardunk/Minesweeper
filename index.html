@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="./css/all.css" type="text/css" />
+	<link rel="icon" href="./img/favicon.ico" />
+	<title>Minesweeper</title>
+</head>
+
+<body>
+  <div id="wrapper">
+    <h1 class="title">MINESWEEPER</h1>
+    <p class="difficulty-desc">Choose Difficulty</p>
+    <ul class="difficulty-list">
+      <li id="beginner" class="difficulty-list-item button">Beginner</li>
+      <li id="intermediate" class="difficulty-list-item button">Intermediate</li>
+      <li id="expert" class="difficulty-list-item button button ">Expert</li>
+    </ul>
+    <div id="play-area"></div>
+    <div class="status">
+      <p>Mines:<span id="mines"></span></p>
+      <p>Time:<span id="minutes"></span>:<span id="seconds"></span></p>
+    </div>
+    <div id="restart" class="button disabled">RESTART</div>
+    <p class="records-desc">RECORDS<span id="new-record"> NEW!</span></p>
+    <ul class="records-list">
+      <li class="records-list-item"><p>Beginner:</p><span id="beginner-record">No Record</span></li>
+      <li class="records-list-item"><p>Intermediate:</p><span id="intermediate-record">No Record</span></li>
+      <li class="records-list-item"><p>Expert:</p><span id="expert-record">No Record</span></li>
+    </ul>
+    <div id="message"></div>
+  </div>
+  <script type="text/javascript" src="./js/jquery-3.6.0.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+</body>
+
+</html>
