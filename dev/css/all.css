@@ -111,13 +111,11 @@ input, select {
   flex-wrap: wrap;
   max-width: 100%;
   background-color: DarkGray;
-  margin: 15px 0; }
-  @media (min-width: 340px) {
-    #play-area {
-      border-top: 10px solid DarkGray;
-      border-right: 10px solid whitesmoke;
-      border-bottom: 10px solid whitesmoke;
-      border-left: 10px solid DarkGray; } }
+  margin: 15px 0;
+  border-top: 10px solid DarkGray;
+  border-right: 10px solid whitesmoke;
+  border-bottom: 10px solid whitesmoke;
+  border-left: 10px solid DarkGray; }
 
 .tile {
   display: flex;

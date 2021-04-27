@@ -23,10 +23,11 @@ $(function() {
     $(`#play-area`).css(`width`, `${tileSize * columns}px`);
     for (let row = 0; row <= rows - 1; row++) {
       for (let col = 0; col <= columns - 1; col++) {
-        let $tile = $(`<div>`, {class: `tile`, 'data-row': row, 'data-col': col});
+        let $tile = $(`<div>`, {class:`tile`, 'data-row':row, 'data-col':col});
         $(`#play-area`).append($tile);
       }
     }
+
     $(`#mines`).text(`${mines}`);
     $(`#minutes, #seconds`).text(`00`);
   }
@@ -38,6 +39,7 @@ $(function() {
     let count;
 
     field = Array(rows).fill().map(() => Array(columns).fill(0));
+
     while (minesSet < mines) {
       row = Math.floor(Math.random() * rows);
       col = Math.floor(Math.random() * columns);
@@ -63,6 +65,7 @@ $(function() {
           }
           if (field[row][col - 1] === 9) count++;
           if (field[row][col + 1] === 9) count++;
+
           field[row][col] = count;
         }
       }
@@ -95,46 +98,46 @@ $(function() {
   }
 
   function openTile(row, col) {
-    if(field[row][col] !== undefined) {
-      if(field[row][col] < 10) {
-        $(`[data-row=${row}][data-col=${col}]`).addClass(`open disabled`);
-        if (field[row][col] > 0) {
-          if (field[row][col] === 1) {
-            $(`[data-row=${row}][data-col=${col}]`).css(`color`, `darkblue`);
-          } else if (field[row][col] === 2) {
-            $(`[data-row=${row}][data-col=${col}]`).css(`color`, `green`);
-          } else if (field[row][col] === 3) {
-            $(`[data-row=${row}][data-col=${col}]`).css(`color`, `red`);
-          } else {
-            $(`[data-row=${row}][data-col=${col}]`).css(`color`, `darkviolet`);
-          }
-          $(`[data-row=${row}][data-col=${col}]`).text(`${field[row][col]}`);
-        }
+    if(field[row][col] < 10) {
+      $(`[data-row=${row}][data-col=${col}]`).addClass(`open disabled`);
 
-        field[row][col] += 10;
-        tilesOpen++;
-
-        if (tilesOpen === rows * columns - mines) {
-          gameOver();
-          setRecord();
-          $(`#message`).css(`color`, `green`);
-          $(`#message`).text(`You Won!`).show();
+      if (field[row][col] > 0) {
+        if (field[row][col] === 1) {
+          $(`[data-row=${row}][data-col=${col}]`).css(`color`, `darkblue`);
+        } else if (field[row][col] === 2) {
+          $(`[data-row=${row}][data-col=${col}]`).css(`color`, `green`);
+        } else if (field[row][col] === 3) {
+          $(`[data-row=${row}][data-col=${col}]`).css(`color`, `red`);
+        } else {
+          $(`[data-row=${row}][data-col=${col}]`).css(`color`, `darkviolet`);
         }
+        $(`[data-row=${row}][data-col=${col}]`).text(`${field[row][col]}`);
+      }
 
-        if (field[row][col] === 10) {
-          if(row !== 0) {
-            openTile(row - 1, col - 1);
-            openTile(row - 1, col + 1);
-            openTile(row - 1, col);
-          }
-          if(row !== rows - 1) {
-            openTile(row + 1, col - 1);
-            openTile(row + 1, col + 1);
-            openTile(row + 1, col);
-          }
-          openTile(row, col - 1);
-          openTile(row, col + 1);
+      field[row][col] += 10;
+      tilesOpen++;
+
+      if (tilesOpen === rows * columns - mines) {
+        $(`#message`).css(`color`, `green`);
+        $(`#message`).text(`You Won!`).show();
+
+        gameOver();
+        setRecord();
+      }
+
+      if (field[row][col] === 10) {
+        if(row !== 0) {
+          openTile(row - 1, col - 1);
+          openTile(row - 1, col + 1);
+          openTile(row - 1, col);
         }
+        if(row !== rows - 1) {
+          openTile(row + 1, col - 1);
+          openTile(row + 1, col + 1);
+          openTile(row + 1, col);
+        }
+        openTile(row, col - 1);
+        openTile(row, col + 1);
       }
     }
   }
@@ -177,6 +180,7 @@ $(function() {
 
           $(`#new-record`).show();
     }
+
     displayRecord();
   }
 
@@ -193,21 +197,20 @@ $(function() {
   function setDifficulty(newDifficulty) {
     difficulty = newDifficulty;
     localStorage.setItem(`difficulty`, `${difficulty}`);
+    tileLimit = Math.floor($(`body`).width() / tileSize);
 
     switch (difficulty) {
       case `beginner`:
-        rows = 9;
-        columns = 9;
+        columns = tileLimit < 9 ? tileLimit : 9;
+        rows = Math.floor(9 * 9 / columns);
         mines = 10;
         break;
       case `intermediate`:
-        tileLimit = Math.floor($(`body`).width() / tileSize);
         columns = tileLimit < 16 ? tileLimit : 16;
         rows = Math.floor(16 * 16 / columns);
         mines = 40;
         break;
       case `expert`:
-        tileLimit = Math.floor($(`body`).width() / tileSize);
         columns = tileLimit < 30 ? tileLimit : 30;
         rows = Math.floor(30 * 16 / columns);
         mines = 99;
@@ -225,15 +228,18 @@ $(function() {
   $(`#play-area`).on(`click`, `.tile`, function() {
     let row = $(this).data(`row`);
     let col = $(this).data(`col`);
+
     if (initial) {
       initial = false;
       newGame(row, col);
     }
+
     if(field[row][col] === 9) {
-      gameOver(row, col);
       $(this).css(`background-color`, `red`);
       $(`#message`).css(`color`, `red`);
       $(`#message`).text(`You Lost`).show();
+
+      gameOver(row, col);
     } else {
       openTile(row, col);
     }
@@ -247,6 +253,7 @@ $(function() {
     if(!initial) {
       let row = $(this).data(`row`);
       let col = $(this).data(`col`);
+
       setFlag(row, col);
     }
   });
@@ -258,6 +265,7 @@ $(function() {
   $(`#beginner, #intermediate, #expert`).click(function() {
     setDifficulty(this.id);
     resetGame();
+    
     $(`#play-area`)[0].scrollIntoView({behavior: `smooth`});
   });
 });

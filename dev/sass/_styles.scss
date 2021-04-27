@@ -16,13 +16,10 @@
   max-width: 100%;
   background-color: DarkGray;
   margin: 15px 0;
-
-  @media (min-width: 340px) {
-    border-top: 10px solid DarkGray;
-    border-right: 10px solid whitesmoke;
-    border-bottom: 10px solid whitesmoke;
-    border-left: 10px solid DarkGray;
-  }
+  border-top: 10px solid DarkGray;
+  border-right: 10px solid whitesmoke;
+  border-bottom: 10px solid whitesmoke;
+  border-left: 10px solid DarkGray;
 }
 
 .tile {
