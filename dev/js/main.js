@@ -10,6 +10,7 @@ $(function() {
   let time;
   let tileSize = 35;
   let tileLimit;
+  let windowWidth = $(window).width();
 
   let difficulty = localStorage.getItem(`difficulty`) ?
                     localStorage.getItem(`difficulty`) :
@@ -197,7 +198,7 @@ $(function() {
   function setDifficulty(newDifficulty) {
     difficulty = newDifficulty;
     localStorage.setItem(`difficulty`, `${difficulty}`);
-    tileLimit = Math.floor($(`body`).width() / tileSize);
+    tileLimit = Math.floor(windowWidth / tileSize);
 
     switch (difficulty) {
       case `beginner`:
@@ -270,6 +271,9 @@ $(function() {
   });
 
   $(window).resize(function() {
-    location.reload();
+    if($(window).width() !== windowWidth) {
+      location.reload();
+      width = $(window).width();
+    }
   });
 });
