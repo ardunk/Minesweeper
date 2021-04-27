@@ -265,7 +265,11 @@ $(function() {
   $(`#beginner, #intermediate, #expert`).click(function() {
     setDifficulty(this.id);
     resetGame();
-    
+
     $(`#play-area`)[0].scrollIntoView({behavior: `smooth`});
+  });
+
+  $(window).resize(function() {
+    location.reload();
   });
 });
